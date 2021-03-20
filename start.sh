@@ -57,14 +57,6 @@ function bootstrap_export {
   fi
 }
 
-function init_rpc {
-	echo "Starting rpcbind"
-	rpcbind || return 0
-	rpc.statd -L || return 0
-	rpc.idmapd || return 0
-	sleep 1
-}
-
 function init_dbus {
 	echo "Starting dbus"
 	rm -f /var/run/dbus/system_bus_socket
@@ -88,7 +80,6 @@ fi
 bootstrap_export
 startup_script
 
-init_rpc
 init_dbus
 
 

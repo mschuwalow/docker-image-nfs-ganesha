@@ -1,20 +1,12 @@
-FROM ubuntu:xenial
-MAINTAINER Mitchell Hewes <me@mitcdh.com>
+FROM debian:latest
 
 # install prerequisites
 RUN DEBIAN_FRONTEND=noninteractive \
- && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 3FE869A9 \
- && echo "deb http://ppa.launchpad.net/gluster/nfs-ganesha-2.5/ubuntu xenial main" > /etc/apt/sources.list.d/nfs-ganesha-2.5.list \
- && echo "deb http://ppa.launchpad.net/gluster/libntirpc-1.5/ubuntu xenial main" > /etc/apt/sources.list.d/libntirpc-1.5.list \
- && echo "deb http://ppa.launchpad.net/gluster/glusterfs-3.13/ubuntu xenial main" > /etc/apt/sources.list.d/glusterfs-3.13.list \
  && apt-get update \
- && apt-get install -y netbase nfs-common dbus nfs-ganesha nfs-ganesha-vfs glusterfs-common \
+ && apt-get install -y nfs-ganesha nfs-ganesha-vfs \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
- && mkdir -p /run/rpcbind /export /var/run/dbus \
- && touch /run/rpcbind/rpcbind.xdr /run/rpcbind/portmap.xdr \
- && chmod 755 /run/rpcbind/* \
- && chown messagebus:messagebus /var/run/dbus
+ && mkdir -p /var/run/dbus
 
 # Add startup script
 COPY start.sh /
