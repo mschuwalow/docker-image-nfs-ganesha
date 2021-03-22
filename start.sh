@@ -51,37 +51,20 @@ EXPORT
 END
 }
 
-function bootstrap_export {
-	if [ ! -f ${GANESHA_EXPORT} ]; then
-		mkdir -p "${GANESHA_EXPORT}"
-  fi
-}
-
-function init_dbus {
-	echo "Starting dbus"
-	rm -f /var/run/dbus/system_bus_socket
-	rm -f /var/run/dbus/pid
-	dbus-uuidgen --ensure
-	dbus-daemon --system --fork
-	sleep 1
-}
-
-function startup_script {
-	if [ -f "${STARTUP_SCRIPT}" ]; then
-  	/bin/sh ${STARTUP_SCRIPT}
-	fi
-}
-
 if [[ "${GANESHA_BOOTSTRAP_CONFIG}" = "yes" ]]
 then
- bootstrap_config
+  bootstrap_config
 fi
 
-bootstrap_export
-startup_script
+if [ ! -f ${GANESHA_EXPORT} ]
+then
+  mkdir -p "${GANESHA_EXPORT}"
+fi
 
-init_dbus
-
+if [ -f "${STARTUP_SCRIPT}" ]
+then
+  /bin/sh ${STARTUP_SCRIPT}
+fi
 
 echo "Starting Ganesha NFS"
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib

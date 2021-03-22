@@ -5,8 +5,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
  && apt-get update \
  && apt-get install -y nfs-ganesha nfs-ganesha-vfs \
  && apt-get clean \
- && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
- && mkdir -p /var/run/dbus
+ && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Add startup script
 COPY start.sh /

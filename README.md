@@ -57,8 +57,11 @@ EXPORT
 ```bash
 docker run -d \
 --name nfs \
+--privileged \
+-v /var/run/dbus:/var/run/dbus \
+-v /var/run/rpcbind.sock:/var/run/rpcbind.sock \
 -v /local/export/path:/export \
-mitcdh/nfs-ganesha \
+mschuwalow/nfs-ganesha
 ```
 
 ### Credits
